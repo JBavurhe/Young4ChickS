@@ -27,6 +27,11 @@ body.offcanvas-menu:before {
   visibility: visible;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
+
 p {
   color: #929191;
   font-weight: 300;
