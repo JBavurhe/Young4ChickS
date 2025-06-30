@@ -1,0 +1,47 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Quicksand", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-weight: 600;
+    background-image: url('/assets/images/chicks.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+}
+
+.register {
+    margin-top: 4rem;
+    background-color: #faedd9;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+    /* max-width: 800px; */
+    
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: #f5b041 !important; 
+    box-shadow: 0 0 0 0.2rem #f5d9ac !important; 
+    outline: none;
+  }
+
+ 
+
+.btn{
+    background-color: #f5b041;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    font-weight: 600;
+}
+
+.btn:hover {
+    background-color: #e5942c;
+    color: #fff;
+}
