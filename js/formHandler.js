@@ -36,18 +36,18 @@ document.getElementById("registrationForm").addEventListener("submit", function 
         phone,
         email,
         location,
-        password, // In production, NEVER store plain passwords
+        password, 
         registrationDate: new Date().toISOString()
     };
 
-    // Log it to console (for now)
+   
     console.log("✅ Farmer Registered:", data);
 
     alert("Registration successful!");
     this.reset();
 
-    // Redirect to home page
-    window.location.href = "index.html"; // Change to your real homepage if different
+    
+    window.location.href = "index.html"; 
 });
 
 
