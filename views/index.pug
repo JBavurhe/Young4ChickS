@@ -1,0 +1,367 @@
+doctype html
+head
+  meta(charset='UTF-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  title Young4ChickS
+  // Bootstrap 5 CSS
+  link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css' rel='stylesheet')
+  // AOS
+  link(href='https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css' rel='stylesheet')
+  link(href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css' rel='stylesheet')
+  // google fonts
+  link(href='https://fonts.googleapis.com/css?family=Quicksand:400,600,700&display=swap' rel='stylesheet')
+  // Custom CSS
+  link(rel='stylesheet' href='/css/customStyles.css')
+  style.
+nav#mainNavbar.navbar.navbar-expand-lg.fixed-top
+  .container.position-relative
+    a.navbar-brand.fw-bold(href='#')
+      img#navbar-logo(src='/assets/logo/logo-white-horizontal.png' alt='Logo' height='50')
+    button.navbar-toggler.ms-auto(type='button' data-bs-toggle='collapse' data-bs-target='#navbarContent' aria-controls='navbarContent' aria-expanded='false' aria-label='Toggle navigation')
+      span.navbar-toggler-icon
+    #navbarContent.collapse.navbar-collapse.navbar-center
+      ul.navbar-nav.me-auto.mb-2.mb-lg-0
+        li.nav-item
+          a.nav-link.active(href='#') Home
+        li.nav-item
+          a.nav-link(href='#features') Features
+        li.nav-item
+          a.nav-link(href='#pricing') Pricing
+        li.nav-item
+          a.nav-link(href='#contact') Contact
+        li.nav-item
+          a.nav-link(href='#faqs') FAQs
+        // Mobile-only Login & Signup
+        li.nav-item.d-lg-none
+          a.nav-link(href='/login')
+            i.bi.bi-box-arrow-in-right.me-1
+            | Login
+        li.nav-item.d-lg-none
+          a.nav-link(href='/signup')
+            i.bi.bi-person-plus.me-1
+            | Sign Up
+    // Desktop Login & Sign Up
+    .d-none.d-lg-flex.gap-2.ms-auto
+      a.btn.btnlog.btn-outline-dark.px-3.rounded-pill(href='/login')
+        i.bi.bi-box-arrow-in-right.me-1
+        | Login
+      a.btn.px-3.rounded-pill(href='/signup' style='background-color: #e67e22; color: white;')
+        i.bi.bi-person-plus.me-1
+        | Sign Up
+section#heroCarousel.carousel.slide.carousel-fade(data-bs-ride='carousel' style='height: 80vh;')
+  .carousel-inner.h-100
+    // Slide 1
+    .carousel-item.active.h-100(style="background-image: url('/assets/images/chicks6.jpg'); background-size: cover; background-position: center;")
+      .container.h-100.d-flex.flex-column.justify-content-center.text-white
+        h1.fw-bold Turn Chicks Into Wealth
+        p.lead
+          | Empowering youth (18&ndash;30) in urban areas with chicks, feeds, and
+          | opportunity.
+          br
+          | Start your journey with 100 chicks today!
+    // Slide 2
+    .carousel-item.h-100(style="background-image: url('/assets/images/chicks4.jpg'); background-size: cover; background-position: center;")
+      .container.h-100.d-flex.flex-column.justify-content-center.text-white
+        h1.fw-bold Build Your Poultry Legacy
+        p.lead From just UGX 1,650 per chick, build your agribusiness step-by-step.
+    // Slide 3
+    .carousel-item.h-100(style="background-image: url('assets/images/chicks7.jpg'); background-size: cover; background-position: center;")
+      .container.h-100.d-flex.flex-column.justify-content-center.text-white
+        h1.fw-bold Support You Can Count On
+        p.lead We provide feeds, mentorship, and support for your poultry journey.
+  // Optional: Indicators
+  .carousel-indicators
+    button.active(type='button' data-bs-target='#heroCarousel' data-bs-slide-to='0')
+    button(type='button' data-bs-target='#heroCarousel' data-bs-slide-to='1')
+    button(type='button' data-bs-target='#heroCarousel' data-bs-slide-to='2')
+section#features.py-5(style='background-color: #fffaf5;' data-aos='fade-up')
+  .container
+    h2.text-center.fw-bold.mb-5(style='color: #cc915c;') How Young4ChickS Works
+    .row.g-4.justify-content-center
+      // Card Template
+      .col-md-4
+        a.text-decoration-none(href='/signup')
+          .card.work-card.h-100.text-center.border-0.shadow-sm.rounded-4.p-4.custom-hover-card
+            .icon-wrapper.mx-auto.mb-3
+              i.bi.bi-person-plus-fill.fs-1
+            h5.fw-bold.mb-2(style='color: #514538;') 1. Register as a Young Farmer
+            p.text-muted
+              | Create your profile with your NIN and recommender details to qualify.
+      .col-md-4
+        a.text-decoration-none(href='/chickRequest')
+          .card.work-card.h-100.text-center.border-0.shadow-sm.rounded-4.p-4.custom-hover-card
+            .icon-wrapper.mx-auto.mb-3
+              i.bi.bi-box-seam.fs-1
+            h5.fw-bold.mb-2(style='color: #514538;') 2. Request Your Chicks
+            p.text-muted Choose between broilers or layers, and submit your request online.
+      .col-md-4
+        a.text-decoration-none(href='/track-request')
+          .card.work-card.h-100.text-center.border-0.shadow-sm.rounded-4.p-4.custom-hover-card
+            .icon-wrapper.mx-auto.mb-3
+              i.bi.bi-clipboard-check.fs-1
+            h5.fw-bold.mb-2(style='color: #514538;') 3. Track Your Request
+            p.text-muted
+              | Monitor approval status and get notified when chicks are ready for
+              | pickup.
+section.py-5(style='background-color: #856a4d ;' data-aos='fade-up')
+  .container.text-center
+    h2.mb-3.fw-bold(style='color: #ffe79f;') Who Can Join Young4ChickS?
+    p.mb-5(style='color: #fff;')
+      | To participate in the program, youth must meet the following
+      | criteria:
+    .row.g-4
+      // Requirement 1
+      .col-md-4
+        .dark-card.h-100.p-4.rounded-4.shadow-sm
+          .icon-wrapper.mx-auto.mb-3
+            i.bi.bi-person-badge.fs-1
+          h5.fw-bold Aged 18&ndash;30
+          p You must be a youth living in the constituency within the eligible age bracket.
+      // Requirement 2
+      .col-md-4
+        .dark-card.h-100.p-4.rounded-4.shadow-sm
+          .icon-wrapper.mx-auto.mb-3
+            i.bi.bi-card-checklist.fs-1
+          h5.fw-bold Registered with a Recommender
+          p Provide your recommender&rsquo;s name and NIN number for accountability.
+      // Requirement 3
+      .col-md-4
+        .dark-card.h-100.p-4.rounded-4.shadow-sm
+          .icon-wrapper.mx-auto.mb-3
+            i.bi.bi-journal-plus.fs-1
+          h5.fw-bold Submit a Chick Request Form
+          p Only registered farmers can request chicks &mdash; once every 4 months.
+section.py-5(data-aos='fade-up')
+  .container
+    h2.text-center.mb-4.fw-bold(style='color: #cc915c;') Gallery
+    .row.g-3
+      // Gallery item 1
+      .col-sm-6.col-md-4.col-lg-3
+        .card.border-0.shadow-sm.overflow-hidden
+          img.card-img(src='https://source.unsplash.com/400x300/?chicks' alt='Chicks')
+      // Gallery item 2
+      .col-sm-6.col-md-4.col-lg-3
+        .card.border-0.shadow-sm.overflow-hidden
+          img.card-img(src='https://source.unsplash.com/400x300/?poultry-farming' alt='Poultry Farming')
+      // Gallery item 3
+      .col-sm-6.col-md-4.col-lg-3
+        .card.border-0.shadow-sm.overflow-hidden
+          img.card-img(src='https://source.unsplash.com/400x300/?farmer' alt='Young Farmer')
+      // Gallery item 4
+      .col-sm-6.col-md-4.col-lg-3
+        .card.border-0.shadow-sm.overflow-hidden
+          img.card-img(src='https://source.unsplash.com/400x300/?chicken-farm' alt='Chicken Farm')
+section#faqs.py-5(style='background-color: #fffaf5;' data-aos='fade-up')
+  .container
+    h2.text-center.mb-4.fw-bold(style='color: #cc915c;') Frequently Asked Questions
+    #faqAccordion.accordion.custom-accordion
+      // FAQ ITEM
+      .accordion-item.border-0.mb-3.rounded-4.shadow-sm
+        h2#headingOne.accordion-header
+          button.accordion-button.rounded-4.collapsed(type='button' data-bs-toggle='collapse' data-bs-target='#collapseOne')
+            | Who is eligible to join Young4ChickS?
+        #collapseOne.accordion-collapse.collapse.show(data-bs-parent='#faqAccordion')
+          .accordion-body
+            | Youth aged 18&ndash;30 years, residing in the constituency, with a recommender&rsquo;s NIN can register.
+      // FAQ 2
+      .accordion-item.border-0.mb-3.rounded-4.shadow-sm
+        h2#headingTwo.accordion-header
+          button.accordion-button.rounded-4.collapsed(type='button' data-bs-toggle='collapse' data-bs-target='#collapseTwo')
+            | How many chicks can I get?
+        #collapseTwo.accordion-collapse.collapse(data-bs-parent='#faqAccordion')
+          .accordion-body
+            | Starter farmers receive 100 chicks. Returning farmers can get up to 500 chicks.
+      // FAQ 3
+      .accordion-item.border-0.mb-3.rounded-4.shadow-sm
+        h2#headingThree.accordion-header
+          button.accordion-button.rounded-4.collapsed(type='button' data-bs-toggle='collapse' data-bs-target='#collapseThree')
+            | Do I pay for the chicks?
+        #collapseThree.accordion-collapse.collapse(data-bs-parent='#faqAccordion')
+          .accordion-body
+            | Yes, each chick costs UGX 1,650 &mdash; fixed price for all types (layers or broilers).
+      // FAQ 4
+      .accordion-item.border-0.mb-3.rounded-4.shadow-sm
+        h2#headingFour.accordion-header
+          button.accordion-button.rounded-4.collapsed(type='button' data-bs-toggle='collapse' data-bs-target='#collapseFour')
+            | When do I get the feeds?
+        #collapseFour.accordion-collapse.collapse(data-bs-parent='#faqAccordion')
+          .accordion-body
+            | Each farmer is eligible for 2 bags of feed, payable after two months from chick collection.
+section#pricing.py-5(style='background-color: #fffaf5;' data-aos='fade-up')
+  .container
+    h2.text-center.fw-bold.mb-5(style='color: #cc915c;') Farmer Packages &amp; Pricing
+    .row.justify-content-center.g-4
+      // Starter Farmer
+      .col-md-6.col-lg-5
+        .card.h-100.border-0.shadow.rounded-4
+          .card-body.text-center.px-4.py-5
+            h4.fw-bold.mb-2(style='color: #cc915c;') Starter Farmer
+            p.text-muted.mb-3 For new poultry entrepreneurs
+            h3.fw-bold.mb-4
+              | UGX 1,650 
+              small.text-muted.fs-6 per chick
+            ul.list-unstyled.mb-4.text-center
+              li.mb-2
+                i.bi.bi-check-circle-fill.me-2(style='color: #cc915c;')
+                | Up
+                |                                     to 
+                strong 100 chicks
+              li.mb-2
+                i.bi.bi-check-circle-fill.me-2(style='color: #cc915c;')
+                | Choose layers or broilers
+              li.mb-2
+                i.bi.bi-check-circle-fill.me-2(style='color: #cc915c;')
+                | 2
+                |                                     bags of feeds (pay later)
+              li.mb-2
+                i.bi.bi-check-circle-fill.me-2(style='color: #cc915c;')
+                | Online request &amp; tracking
+            a.btn.custom-outline-orange-btn.px-4.py-2.rounded-pill.fw-semibold(href='/signup')
+              | Register Now
+      // Returning Farmer
+      .col-md-6.col-lg-5
+        .card.h-100.border-0.shadow.rounded-4
+          .card-body.text-center.px-4.py-5
+            h4.fw-bold.mb-2(style='color: #cc915c;') Returning Farmer
+            p.text-muted.mb-3 For previously registered youth
+            h3.fw-bold.mb-4
+              | UGX 1,650 
+              small.text-muted.fs-6 per chick
+            ul.list-unstyled.mb-4.text-center
+              li.mb-2
+                i.bi.bi-check-circle-fill.me-2(style='color: #cc915c;')
+                | Up
+                |                                     to 
+                strong 500 chicks
+              li.mb-2
+                i.bi.bi-check-circle-fill.me-2(style='color: #cc915c;')
+                | Layers or broilers available
+              li.mb-2
+                i.bi.bi-check-circle-fill.me-2(style='color: #cc915c;')
+                | 2
+                |                                     bags of feeds (pay later)
+              li.mb-2
+                i.bi.bi-check-circle-fill.me-2(style='color: #cc915c;')
+                | Priority processing
+            a.btn.custom-outline-orange-btn.px-4.py-2.rounded-pill.fw-semibold(href='/login')
+              | Request Again
+section.py-5.text-center(style='background-color: #856a4d;' data-aos='fade-up')
+  .container
+    h2.text-white.fw-bold.mb-3 Ready to Start Your Poultry Journey?
+    p.text-white.mb-4.fs-5 Register now and get access to quality chicks and expert support!
+    a.btn.px-3.rounded-pill.reg(href='/signup' style='background-color: transparent; color: white; border-color: white !important; ') Register Now
+section#contact.py-5(style='background-color: #fffaf5;' data-aos='fade-up')
+  .container
+    h2.text-center.fw-bold.mb-5(style='color: #cc915c;') Contact Us
+    .row.g-5
+      // Contact Info
+      .col-md-5
+        .mb-4
+          h5.fw-bold.text-dark
+            i.bi.bi-geo-alt-fill.me-2(style='color: #cc915c;')
+            | Address
+          p.text-muted 123 Urban Poultry Ave, Kampala, Uganda
+        .mb-4
+          h5.fw-bold.text-dark
+            i.bi.bi-telephone-fill.me-2(style='color: #cc915c;')
+            | Phone
+          p.text-muted +256 700 123 456
+        .mb-4
+          h5.fw-bold.text-dark
+            i.bi.bi-envelope-fill.me-2(style='color: #cc915c;')
+            | Email
+          p.text-muted info@young4chicks.ug
+        .d-flex.gap-3.mt-4
+          a(href='#' style='color: #cc915c;')
+            i.bi.bi-facebook.fs-4
+          a(href='#' style='color: #cc915c;')
+            i.bi.bi-twitter.fs-4
+          a(href='#' style='color: #cc915c;')
+            i.bi.bi-instagram.fs-4
+      // Contact Form
+      .col-md-7
+        .p-4.rounded-4.shadow-sm(style='background-color: #ffffff;')
+          form
+            .mb-3
+              label.form-label.fw-bold.text-dark(for='name') Full Name
+              input#name.form-control(type='text' placeholder='Your full name')
+            .mb-3
+              label.form-label.fw-bold.text-dark(for='email') Email Address
+              input#email.form-control(type='email' placeholder='you@example.com')
+            .mb-3
+              label.form-label.fw-bold.text-dark(for='message') Message
+              textarea#message.form-control(rows='5' placeholder='Your message...')
+            button.btn.fw-bold.px-4.py-2.rounded-pill.send-btn(type='submit')
+              | Send Message
+footer.text-white.pt-5.pb-4(style='background-color: #292018ff;')
+  .container.text-center.text-md-start
+    .row
+      // Brand/About
+      .col-md-4.mb-4
+        h5.fw-bold.text-white.mb-3 Young4ChickS
+        p
+          | Empowering youth through urban poultry farming. Get started with chicks, feed, and support from
+          | our dedicated team.
+      // Quick Links
+      .col-md-4.mb-4
+        h6.fw-semibold.text-white.mb-3 Quick Links
+        ul.list-unstyled
+          li
+            a.text-white.text-decoration-none(href='/') Home
+          li
+            a.text-white.text-decoration-none(href='/signup') Register
+          li
+            a.text-white.text-decoration-none(href='/chicks') Request Chicks
+          li
+            a.text-white.text-decoration-none(href='/track-request') Track Request
+      // Contact Info
+      .col-md-4.mb-4
+        h6.fw-semibold.text-white.mb-3 Contact Us
+        ul.list-unstyled
+          li
+            i.bi.bi-telephone-fill.me-2
+            |  +256 704 054 762
+          li
+            i.bi.bi-envelope-fill.me-2
+            |  info@young4chicks.ug
+          li
+            i.bi.bi-geo-alt-fill.me-2
+            |  Kampala, Uganda
+        // Social Media
+        .mt-3
+          a.text-white.me-3.fs-5(href='#')
+            i.bi.bi-facebook
+          a.text-white.me-3.fs-5(href='#')
+            i.bi.bi-twitter-x
+          a.text-white.me-3.fs-5(href='#')
+            i.bi.bi-instagram
+    hr.border-white
+    .text-center.mt-3
+      p.mb-0 &copy; 2025 Young4ChickS. All rights reserved.
+script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js')
+script(src='https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js')
+
+script.
+  AOS.init();
+script.
+  window.addEventListener('scroll', () => {
+  const navbar = document.getElementById('mainNavbar');
+  if (window.scrollY > 50) {
+  navbar.classList.add('scrolled');
+  } else {
+  navbar.classList.remove('scrolled');
+  }
+  });
+script. 
+  window.addEventListener("scroll", function () {
+  const navbar = document.getElementById("mainNavbar");
+  const logo = document.getElementById("navbar-logo");
+  if (window.scrollY > 50) {
+    navbar.classList.add("scrolled");
+    logo.src = "/assets/logo/horizontal logo.png"; // ← logo after scroll
+  } else {
+    navbar.classList.remove("scrolled");
+    logo.src = "/assets/logo/logo-white-horizontal.png"; // ← logo before scroll
+  }
+  });
+  

@@ -1,0 +1,79 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Quicksand", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-weight: 600;
+    background-image: url('/images/chicks2.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;
+}
+
+.card {
+    border-radius: 16px;
+    border: none;
+    background-color: #fff;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.form-label {
+    font-weight: 500;
+}
+
+.input-group {
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.input-group-text {
+    background-color: #f9fafb;
+    border-right: 0;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: #f5b041 !important;
+    box-shadow: 0 0 0 0.2rem #f5d9ac !important;
+    outline: none;
+}
+
+.form-control {
+    background-color: #f9fafb;
+    border-left: 0;
+}
+
+.input-group .form-control:focus {
+    box-shadow: none;
+    border-color: #4f46e5;
+}
+
+.invalid-feedback {
+    font-size: 0.875rem;
+}
+
+.btn-primary {
+    background-color: #e67e22;
+    border-radius: 12px;
+    border: none;
+    font-weight: 600;
+}
+
+.btn-primary:hover {
+    background-color: #d35400;
+}
+
+.btnlog {
+    background-color: #e67e22;
+    color: white;
+}
+
+.btnlog:hover {
+    background-color: #d35400;
+    color: white;
+}

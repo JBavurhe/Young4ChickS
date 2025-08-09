@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Manager Dashboard – Young4ChickS</title>
+
+    <!-- Bootstrap + Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --brand: #e67e22;
+        }
+
+        .sidebar {
+            width: 250px;
+            min-height: 100vh;
+            background: #f8f9fa;
+        }
+
+        .sidebar a {
+            color: #333;
+            display: block;
+            padding: .75rem 1rem;
+            text-decoration: none
+        }
+
+        .sidebar a.active,
+        .sidebar a:hover {
+            background: var(--brand);
+            color: #fff
+        }
+
+        .btn-brand {
+            background: var(--brand);
+            color: #fff
+        }
+
+        .btn-brand:hover {
+            background: #cf711a
+        }
+
+        .table-wrap {
+            max-height: 45vh;
+            overflow: auto
+        }
+    </style>
+</head>
+
+<body>
+    <div class="d-flex">
+        <!-- sidebar -->
+        <nav class="sidebar border-end">
+            <h5 class="text-center py-3 fw-bold">Brooder Manager</h5>
+            <a href="#" data-page="home" class="active"><i class="fas fa-chart-line me-2"></i>Dashboard</a>
+            <a href="#" data-page="stock"><i class="fas fa-egg me-2"></i>Stock</a>
+            <a href="#" data-page="requests"><i class="fas fa-envelope-open-text me-2"></i>Pending Requests</a>
+            <a href="#" data-page="approved"><i class="fas fa-check-circle me-2"></i>Approved Log</a>
+        </nav>
+
+        <!-- main -->
+        <main class="flex-grow-1 p-4">
+            <!-- HOME -->
+            <section id="page-home">
+                <h4>Overview</h4>
+                <div class="row g-3 mt-2" id="overview-cards"></div>
+            </section>
+
+            <!-- STOCK -->
+            <section id="page-stock" class="d-none">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h4>Chick Stock</h4>
+                    <button class="btn btn-sm btn-brand" data-bs-toggle="modal" data-bs-target="#stockModal">
+                        <i class="fas fa-plus me-1"></i>Add Stock
+                    </button>
+                </div>
+                <div class="table-responsive mt-3 table-wrap">
+                    <table class="table table-sm table-bordered align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Type</th>
+                                <th>Quantity</th>
+                                <th>Age (days)</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="stock-body"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- REQUESTS -->
+            <section id="page-requests" class="d-none">
+                <h4>Pending Requests</h4>
+                <div class="table-responsive mt-3 table-wrap">
+                    <table class="table table-sm table-bordered align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Farmer</th>
+                                <th>Type</th>
+                                <th>Qty</th>
+                                <th>Farmer&nbsp;Type</th>
+                                <th>Date</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="req-body"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- APPROVED -->
+            <section id="page-approved" class="d-none">
+                <h4>Approved Distributions</h4>
+                <div class="table-responsive mt-3 table-wrap">
+                    <table class="table table-sm table-bordered align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Farmer</th>
+                                <th>Type</th>
+                                <th>Qty</th>
+                                <th>Farmer&nbsp;Type</th>
+                                <th>Approved&nbsp;On</th>
+                            </tr>
+                        </thead>
+                        <tbody id="approved-body"></tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- STOCK MODAL -->
+    <div class="modal fade" id="stockModal" tabindex="-1">
+        <div class="modal-dialog">
+            <form class="modal-content" id="stockForm">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add / Update Stock</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="editIndex">
+                    <div class="mb-3">
+                        <label class="form-label">Chick Type</label>
+                        <input required class="form-control" id="sType">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Quantity</label>
+                        <input type="number" min="1" required class="form-control" id="sQty">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Age (days)</label>
+                        <input type="number" min="0" required class="form-control" id="sAge">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button class="btn btn-brand">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        /* ======= Data helpers (localStorage) ======= */
+        const LS = key => JSON.parse(localStorage.getItem(key) || '[]');
+        const saveLS = (k, v) => localStorage.setItem(k, JSON.stringify(v));
+
+        let stock = LS('stock');
+        let requests = LS('requests');
+        let approved = LS('approved');
+
+        /* Dummy seed data if empty */
+        if (!stock.length) {
+            stock = [{ type: 'Broiler', qty: 800, age: 3 }, { type: 'Layer', qty: 500, age: 2 }];
+            saveLS('stock', stock);
+        }
+        if (!requests.length) {
+            requests = [
+                { id: 1, farmer: 'Ayo N.', type: 'Broiler', qty: 100, fType: 'starter', date: '2025-07-10' },
+                { id: 2, farmer: 'Kembo K.', type: 'Layer', qty: 200, fType: 'returning', date: '2025-07-11' }
+            ];
+            saveLS('requests', requests);
+        }
+
+        /* ======= UI SWITCHING ======= */
+        document.querySelectorAll('.sidebar a').forEach(link => {
+            link.addEventListener('click', e => {
+                e.preventDefault();
+                document.querySelectorAll('.sidebar a').forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+                const pg = link.dataset.page;
+                document.querySelectorAll('main section').forEach(sec => sec.classList.add('d-none'));
+                document.getElementById('page-' + pg).classList.remove('d-none');
+                if (pg === 'home') renderOverview();
+                if (pg === 'stock') renderStock();
+                if (pg === 'requests') renderRequests();
+                if (pg === 'approved') renderApproved();
+            });
+        });
+
+        /* ======= RENDER FUNCTIONS ======= */
+        function renderOverview() {
+            const pending = requests.length;
+            const totalStock = stock.reduce((a, b) => a + b.qty, 0);
+            const cards = [{
+                title: 'Total Stock',
+                val: totalStock,
+                icon: 'egg'
+            }, {
+                title: 'Pending Requests',
+                val: pending,
+                icon: 'hourglass-half'
+            }, {
+                title: 'Approved Log',
+                val: approved.length,
+                icon: 'check'
+            }];
+            const wrap = document.getElementById('overview-cards');
+            wrap.innerHTML = cards.map(c => `
+    <div class="col-sm-4">
+      <div class="card text-center border-0 shadow-sm">
+        <div class="card-body">
+          <i class="fas fa-${c.icon} fa-2x text-warning mb-2"></i>
+          <h3>${c.val}</h3>
+          <p class="mb-0">${c.title}</p>
+        </div>
+      </div>
+    </div>`).join('');
+        }
+        renderOverview();
+
+        /* STOCK */
+        function renderStock() {
+            const body = document.getElementById('stock-body');
+            body.innerHTML = stock.map((s, i) => `
+    <tr>
+      <td>${s.type}</td><td>${s.qty}</td><td>${s.age}</td>
+      <td>
+        <button class="btn btn-sm btn-outline-secondary me-1" onclick="editStock(${i})"><i class="fas fa-edit"></i></button>
+        <button class="btn btn-sm btn-outline-danger" onclick="delStock(${i})"><i class="fas fa-trash"></i></button>
+      </td>
+    </tr>`).join('');
+        }
+        function editStock(i) {
+            const s = stock[i];
+            document.getElementById('editIndex').value = i;
+            document.getElementById('sType').value = s.type;
+            document.getElementById('sQty').value = s.qty;
+            document.getElementById('sAge').value = s.age;
+            new bootstrap.Modal('#stockModal').show();
+        }
+        function delStock(i) {
+            if (!confirm('Delete this stock entry?')) return;
+            stock.splice(i, 1); saveLS('stock', stock); renderStock(); renderOverview();
+        }
+        /* handle add/update */
+        document.getElementById('stockForm').addEventListener('submit', e => {
+            e.preventDefault();
+            const idx = document.getElementById('editIndex').value;
+            const obj = { type: sType.value.trim(), qty: +sQty.value, age: +sAge.value };
+            if (idx === '') { stock.push(obj); } else { stock[idx] = obj; }
+            saveLS('stock', stock);
+            bootstrap.Modal.getInstance('#stockModal').hide();
+            e.target.reset(); document.getElementById('editIndex').value = '';
+            renderStock(); renderOverview();
+        });
+
+        /* REQUESTS */
+        function renderRequests() {
+            const body = document.getElementById('req-body');
+            body.innerHTML = requests.map(r => `
+    <tr>
+      <td>${r.farmer}</td><td>${r.type}</td><td>${r.qty}</td>
+      <td>${r.fType}</td><td>${r.date}</td>
+      <td>
+        <button class="btn btn-sm btn-success me-1" onclick="approveReq(${r.id})"><i class="fas fa-check"></i></button>
+        <button class="btn btn-sm btn-danger" onclick="rejectReq(${r.id})"><i class="fas fa-times"></i></button>
+      </td>
+    </tr>`).join('');
+        }
+        function approveReq(id) {
+            const idx = requests.findIndex(r => r.id === id);
+            const req = requests[idx];
+            // check stock availability
+            const stk = stock.find(s => s.type === req.type);
+            if (!stk || stk.qty < req.qty) { alert('Not enough stock!'); return; }
+            stk.qty -= req.qty;
+            approved.push({ ...req, approvedOn: new Date().toISOString().slice(0, 10) });
+            requests.splice(idx, 1);
+            saveLS('stock', stock); saveLS('requests', requests); saveLS('approved', approved);
+            renderRequests(); renderStock(); renderOverview();
+        }
+        function rejectReq(id) {
+            if (!confirm('Reject this request?')) return;
+            requests = requests.filter(r => r.id !== id);
+            saveLS('requests', requests);
+            renderRequests(); renderOverview();
+        }
+
+        /* APPROVED LOG */
+        function renderApproved() {
+            const body = document.getElementById('approved-body');
+            body.innerHTML = approved.map(a => `
+    <tr>
+      <td>${a.farmer}</td><td>${a.type}</td><td>${a.qty}</td>
+      <td>${a.fType}</td><td>${a.approvedOn}</td>
+    </tr>`).join('');
+        }
+
+        /* initial renders */
+        renderStock(); renderRequests(); renderApproved();
+    </script>
+</body>
+
+</html>

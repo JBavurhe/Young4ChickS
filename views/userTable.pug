@@ -1,0 +1,94 @@
+head
+  style.
+    table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    }
+    td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+    }
+    tr:nth-child(even) {
+    background-color: #dddddd;
+    }
+h2 Sales Rep List 
+table
+  thead   
+    tr
+      th Full Name
+      th Contact
+      th Email
+      th Role
+      th Update
+      th Delete 
+  tbody 
+    if  users.length 
+      each user in users
+        tr
+          td #{user.fullname}
+          td #{user.email}
+          td #{user.phone}
+          td #{user.role}
+          td 
+            a.btn.btn-primary.btn-block(href="/updateuser/"+user._id) Update 
+           td 
+              form(method='post' action="/deleteUser") 
+                input(type="hidden" name='id' value= user._id)
+                button.btn.btn-danger.btn-block(type = 'submit') Delete                
+br
+br
+h2 farmers List 
+br
+br 
+table
+  thead   
+    tr
+      th Full Name
+      th Contact
+      th Email
+      th Role
+      th Update
+      th Delete 
+  tbody 
+    if  users.length
+      each user in users
+        if user.role == 'brooderManager'
+          tr
+            td #{user.fullname}
+            td #{user.email}
+            td #{user.phone}
+            td #{user.role}
+            td 
+              a.btn.btn-primary.btn-block(href="/updateuser/"+user._id) Update         
+           td 
+              form(method='post' action="/deleteUser") 
+                input(type="hidden" name='id' value= user._id)
+                button.btn.btn-danger.btn-block(type = 'submit') Delete      
+br
+br 
+h2 farmer List 
+table
+  thead   
+    tr
+      th Full Name
+      th Contact
+      th Email
+      th Update 
+      th Delete 
+  tbody 
+    if  users.length
+      each user in users
+        if user.role == 'farmer'
+          tr
+            td #{user.fullname}
+            td #{user.email}
+            td #{user.phone}
+            td #{user.role}    
+            td 
+              a.btn.btn-primary.btn-block(href="/updateuser/"+user._id) Update 
+            td 
+              form(method='post' action="/deleteUser") 
+                input(type="hidden" name='id' value= user._id)
+                button.btn.btn-danger.btn-block(type = 'submit') Delete      

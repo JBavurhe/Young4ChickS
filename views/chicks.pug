@@ -1,0 +1,180 @@
+extends layout
+block content
+    header
+    // Farmer Type Modal
+    div#farmerTypeModal.modal.fade(tabindex='-1')
+      div.modal-dialog
+        div.modal-content
+          div.modal-header
+            h5.modal-title Farmer Type
+            button.btn-close(type='button', data-bs-dismiss='modal', aria-label='Close')
+          div.modal-body
+            p You are a #{farmerType} farmer.
+            p You can order a maximum of #{maxChicks} chicks.
+          div.modal-footer
+            button.btn.btn-primary(type='button', data-bs-dismiss='modal') OK
+    if showFarmerModal
+      script.
+        document.addEventListener("DOMContentLoaded", function() {
+          const farmerModalEl = document.getElementById('farmerTypeModal');
+          if (farmerModalEl) {
+            const farmerModal = new bootstrap.Modal(farmerModalEl);
+            farmerModal.show();
+          }
+        });        
+    // Show alert for tooSoon error
+    if status === 'error' && reason === 'tooSoon'
+      .alert.alert-warning(role="alert")
+        strong You recently made a chick request.
+        br
+        | You can only make a new request every 4 months.
+        br
+        | Your next eligible date is: #{nextEligibleDate}        
+    // Form Card
+    .card.p-4.shadow-lg.mx-auto.mt-5(style='max-width: 500px; width: 100%;')
+      .mb-3.text-center
+        a(href='/index.html')
+          img(src='/images/logo/horizontal logo.png' alt='Young4ChickS Logo' height='50')
+      h4.mb-3.text-center Chick Request Form
+
+      form#chickRequestForm(action='/chickRequest' method='post' novalidate='')
+        // Number of Chicks
+        .mb-3
+          label.form-label(for='quantity') Number of Chicks
+          input#quantity.form-control(name='quantity' type='number' min='1' max=maxChicks required='')
+          small.form-text.text-muted maximum: #{maxChicks} chicks
+          .invalid-feedback Please enter a valid number of chicks.
+        // Chick Type
+        .mb-3
+          label.form-label(for='chickType') Chick type
+          select#chickType.form-select(name='chickType' required='')
+            option(value='') Select breed
+            option(value='Broiler') Broiler
+            option(value='Layer') Layer
+          .invalid-feedback Please select a chick type.
+        // Breed
+        .mb-3
+          label.form-label(for='breed') Breed Preference
+          select#breed.form-select(name='breed' required='')
+            option(value='') Select breed
+            option(value='Local') Local
+            option(value='Exotic') Exotic
+          .invalid-feedback Please select a preferred breed.
+        // Request Date
+        .mb-3
+          label.form-label(for='requestDate') Preferred Delivery Date
+          input#deliveryDate.form-control(type='date' name='requestDate' required='')
+          .invalid-feedback Please choose a valid delivery date (today or later).
+        // Unit Price
+        .mb-3
+          label.form-label(for='unitPrice') Unit Price (1650 UGX)
+          input#unitPrice.form-control(name='unitPrice' type='number' value='1650' readonly)
+        // Notes
+        .mb-3
+          label.form-label(for='notes') Additional Notes (optional)
+          textarea#notes.form-control(name='notes' rows='3')
+
+        button.btn.btn-primary.w-100(type='submit') Submit Request
+        
+    // Success Modal
+    if status === 'success'
+      div#successModal.modal.fade(tabindex='-1', aria-labelledby='successModalLabel', aria-hidden='true')
+        div.modal-dialog
+          div.modal-content
+            div.modal-header.bg-success.text-white
+              h5#successModalLabel.modal-title Request Successful
+              button.btn-close(type='button', data-bs-dismiss='modal', aria-label='Close')
+            div.modal-body
+              p Your chick request has been submitted successfully.
+            div.modal-footer
+              button.btn.btn-success(type='button', data-bs-dismiss='modal') Close
+    // Error Modal
+    if status === 'error'
+      div#errorModal.modal.fade(tabindex='-1', aria-labelledby='errorModalLabel', aria-hidden='true')
+        div.modal-dialog
+          div.modal-content
+            div.modal-header.bg-danger.text-white
+              h5#errorModalLabel.modal-title Request Failed
+              button.btn-close(type='button', data-bs-dismiss='modal', aria-label='Close')
+            div.modal-body
+              if reason === 'limit'
+                p You are not allowed to request more than your allowed number of chicks.
+              else if reason === 'tooSoon'
+                p You recently made a chick request. You can only make a new request every 4 months.
+                br
+                | Your next eligible date is: #{nextEligibleDate}
+            div.modal-footer
+              button.btn.btn-danger(type='button', data-bs-dismiss='modal') Close
+  
+    script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js')
+
+    //form validation
+    script.
+      (function() {
+        'use strict'
+        const form = document.querySelector('form[novalidate]');
+        form.addEventListener('submit', function(event) {
+          let valid = true;
+
+        // Loop through required inputs and check if empty
+        form.querySelectorAll('input, select, textarea').forEach(input => {
+          if (input.hasAttribute('required')) {
+            if (!input.value.trim()) {
+              input.classList.add('is-invalid');
+              input.classList.remove('is-valid');
+              valid = false;
+            } else {
+              input.classList.remove('is-invalid');
+              input.classList.add('is-valid');
+            }
+          }
+        });
+
+        // Additional check for preferred date field if exists
+        const dateInput = document.getElementById('preferredDate');
+        if (dateInput) {
+          const today = new Date();
+          today.setHours(0, 0, 0, 0); // start of today
+
+          const inputDate = new Date(dateInput.value);
+          if (inputDate < today) {
+            dateInput.classList.add('is-invalid');
+            dateInput.classList.remove('is-valid');
+            valid = false;
+          } else if (dateInput.value.trim() !== '') {
+            dateInput.classList.remove('is-invalid');
+            dateInput.classList.add('is-valid');
+          }
+        }
+
+        if (!valid) {
+          event.preventDefault();
+          event.stopPropagation();
+            }
+          });
+      })();
+
+
+    // Scripts to auto-show modals
+    script.
+      document.addEventListener('DOMContentLoaded', () => {
+        // Success modal
+        const successModalEl = document.getElementById('successModal');
+        if (successModalEl) {
+          const successModal = new bootstrap.Modal(successModalEl);
+          successModal.show();
+          successModalEl.querySelector('button.btn-success').addEventListener('click', () => {
+            window.location.href = '/dashboard'; // Change redirect as needed
+          });
+        }
+
+        // Error modal
+        const errorModalEl = document.getElementById('errorModal');
+        if (errorModalEl) {
+          const errorModal = new bootstrap.Modal(errorModalEl);
+          errorModal.show();
+          errorModalEl.querySelector('button.btn-danger').addEventListener('click', () => {
+            window.location.href = '/chickRequest';
+          });
+        }
+      });

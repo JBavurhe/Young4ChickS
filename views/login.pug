@@ -1,0 +1,187 @@
+doctype html
+head
+  meta(charset='UTF-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  title Member Login
+  link(href='https://fonts.googleapis.com/css?family=Quicksand:400,600,700&display=swap' rel='stylesheet')
+  link(href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css' rel='stylesheet')
+  link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css' rel='stylesheet')
+  style.
+    body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(120deg, #d86b05, #d98b19, #e79f31, #fdb73e, #fed48b, #feedcf);
+    background-size: 300% 300%;
+    animation: animatedGradient 5s ease infinite;
+    font-family: "Quicksand", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    }
+    @keyframes animatedGradient {
+    0% {
+    background-position: 0% 50%;
+    }
+    25% {
+    background-position: 50% 50%;
+    }
+    50% {
+    background-position: 100% 50%;
+    }
+    75% {
+    background-position: 50% 50%;
+    }
+    100% {
+    background-position: 0% 50%;
+    }
+    }
+    .login-card {
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    max-width: 900px;
+    width: 100%;
+    }
+    .login-left {
+    background-color: #f7f7f7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    }
+    .login-left img {
+    width: 220px;
+    }
+    .login-right {
+    padding: 40px;
+    }
+    .form-floating>label {
+    color: #999;
+    }
+    .form-control:focus {
+    border-color: #e79f31;
+    box-shadow: 0 0 0 0.2rem rgba(231, 159, 49, 0.25);
+    }
+    .login-btn {
+    background-color: #e79f31;
+    border: none;
+    font-weight: 600;
+    transition: background-color 0.3s;
+    }
+    .login-btn:hover {
+    background-color: #d98b19;
+    }
+    .links {
+    font-size: 14px;
+    margin-top: 10px;
+    font-weight: 100;
+    }
+    .links a {
+    text-decoration: none;
+    color: #444;
+    }
+    .links a:hover {
+    text-decoration: underline;
+    }
+    @media (max-width: 768px) {
+    .login-card {
+    flex-direction: column;
+    }
+    .login-left,
+    .login-right {
+    width: 100%;
+    padding: 30px;
+    }
+    }
+    #togglePassword {
+    position: absolute;
+    top: 50%;
+    right: 1rem;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: #999;
+    display: none;
+    line-height: 1;
+    }
+.login-card.d-flex.flex-md-row.flex-column
+  // Left Side
+  .login-left.col-md-6
+    img(src='/assets/images/profile.png' alt='Login Icon')
+  // Right Side
+  .login-right.col-md-6
+    .text-center.mb-5
+      a.text-decoration-none(href='/')
+        img(src='/assets/images/logo/horizontal logo.png' height='50' alt='Logo')
+    // <h3 class="mb-4 fw-bold">Member Login</h3>
+    .gradient-overlay
+    form#loginForm(action='/login' method='post' novalidate='')
+      .form-floating.mb-3
+        input#emailInput.form-control(type='email' name='email' placeholder='name@example.com' required)
+        label(for='emailInput')
+          i.bi.bi-person-circle.me-2
+          |  Email
+        .invalid-feedback Email is required.
+      .form-floating.mb-3.position-relative
+        input#passwordInput.form-control(type='password' name='password' placeholder='Password' minlength='8')
+        label(for='passwordInput')
+          i.bi.bi-shield-lock-fill.me-2
+          | Password
+        i#togglePassword.bi.bi-eye-slash.toggle-password
+        .invalid-feedback Password must be at least 8 characters long.
+      button.btn.login-btn.w-100.text-white.py-2(type='submit') LOGIN
+    .links.mt-3.text-center
+      a(href='#') Forgot Username / Password?
+    .links.mt-4.text-center
+      a(href='#') Create your Account &rarr;
+script.
+    const form = document.getElementById('loginForm');
+    const email = document.getElementById('emailInput');
+    const password = document.getElementById('passwordInput');
+    const togglePassword = document.getElementById('togglePassword');
+
+    form.addEventListener('submit', function (e) {
+    let valid = true;
+
+    // Email validation
+    const emailValue = email.value.trim();
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailValue || !emailPattern.test(emailValue)) {
+        email.classList.add('is-invalid');
+        email.classList.remove('is-valid');
+        valid = false;
+    } else {
+        email.classList.remove('is-invalid');
+        email.classList.add('is-valid');
+    }
+
+    // Password validation
+    const passwordValue = password.value.trim();
+    if (passwordValue.length < 8) {
+        password.classList.add('is-invalid');
+        password.classList.remove('is-valid');
+        valid = false;
+    } else {
+        password.classList.remove('is-invalid');
+        password.classList.add('is-valid');
+    }
+
+    if (!valid) {
+        e.preventDefault(); // Prevent form submission only if invalid
+    }
+    });
+
+    // Show/hide password toggle based on input
+    password.addEventListener('input', () => {
+    togglePassword.style.display = password.value.length > 0 ? 'block' : 'none';
+    });
+
+    // Toggle password visibility
+    togglePassword.addEventListener('click', () => {
+    const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+    password.setAttribute('type', type);
+    togglePassword.classList.toggle('bi-eye');
+    togglePassword.classList.toggle('bi-eye-slash');
+    });
+
+script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js')
